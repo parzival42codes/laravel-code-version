@@ -13,7 +13,7 @@ class CodeVersionScan
     /**
      * @throws \ReflectionException
      */
-    public function __construct(string $mainVersion, string $path)
+    public function __construct(array $versions, string $path)
     {
         $discoverClass = Discover::in($path)->classes()->extending(Controller::class)->get();
 
@@ -25,27 +25,28 @@ class CodeVersionScan
             if ($docComment) {
                 $codeInfo = [
                     'discover' => $discover,
-                    'version' => '',
-                    'versionCompare' => '',
-                    'note' => '',
+                    'version' => [],
+                    'note' => [],
                 ];
 
-                preg_match_all('!@code-(.*):(.*)!', $docComment, $matches, PREG_SET_ORDER);
+                preg_match_all('!@code-(.*)-(.*):(.*)!', $docComment, $matches, PREG_SET_ORDER);
                 foreach ($matches as $match) {
-                    if ($match[1] === 'version') {
-                        $codeInfo['version'] = trim($match[2]);
+                    if ($match[1] === 'note') {
+                        $codeInfo['note'][$match[2]] = trim($match[3]);
                     }
 
-                    if ($match[1] === 'note') {
-                        $codeInfo['note'] = trim($match[2]);
+                    if ($match[1] === 'version') {
+                        $codeInfo['version'][$match[2]] = trim($match[3]);
+                        $codeInfo['versionCompare'][$match[2]] = version_compare($codeInfo['version'][$match[2]],
+                            $versions[$match[2]] ?? '1.0.0');
                     }
                 }
 
                 if ($codeInfo['version']) {
-                    $codeInfo['versionCompare'] = version_compare($codeInfo['version'], $mainVersion);
                     $this->codeInfoCollection[$discover] = $codeInfo;
                 } else {
-                    $codeInfo['versionCompare'] = null;
+                    $codeInfo['note'] = null;
+                    $codeInfo['version'] = null;
                     $this->codeInfoCollection[$discover] = $codeInfo;
                 }
             }
