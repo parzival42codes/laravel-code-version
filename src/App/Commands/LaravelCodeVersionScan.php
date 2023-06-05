@@ -33,40 +33,50 @@ class LaravelCodeVersionScan extends Commands
     {
         // php artisan vendor:publish --tag=code-version-config
 
-        $versions = config('code-version.version');
-        $path = config('code-version.path');
+        $versions = config('code-version.versions_required');
+        $path = config('code-version.scan_path');
 
         $this->write(Info::class, 'Can for main versions '.var_export($versions, true).' in: '.$path);
 
         $consoleTable = [];
         $codeData = new CodeVersionScan($versions, $path);
         foreach ($codeData->getArray() as $code) {
-            if ($code['version']) {
+            d($code);
+
+            if ($code['versionDoc']) {
                 foreach ($code['version'] as $codeKey => $codeVersion) {
-                    $consoleTablePrepare['discover'] = $code['discover'];
-                    $consoleTablePrepare['key'] = $codeKey;
-                    $consoleTablePrepare['version'] = $code['version'][$codeKey];
+                    if ($codeVersion) {
+                        $consoleTablePrepare['discover'] = $code['discover'];
+                        $consoleTablePrepare['key'] = $codeKey;
+                        $consoleTablePrepare['version'] = $code['version'][$codeKey];
 
-                    if ($code['versionCompare'][$codeKey] === -1) {
-                        $consoleTablePrepare['versionCompare'] = '<fg=yellow;bg=black>Lower</>';
-                    } elseif ($code['versionCompare'][$codeKey] === 0) {
-                        $consoleTablePrepare['versionCompare'] = '<fg=green;bg=black>Equal</>';
-                    } elseif ($code['versionCompare'][$codeKey] === 1) {
-                        $consoleTablePrepare['versionCompare'] = '<fg=red;bg=black>Higher</>';
+                        if ($code['versionCompare'][$codeKey] === -1) {
+                            $consoleTablePrepare['versionCompare'] = '<fg=yellow;bg=black>Lower</>';
+                        } elseif ($code['versionCompare'][$codeKey] === 0) {
+                            $consoleTablePrepare['versionCompare'] = '<fg=green;bg=black>Equal</>';
+                        } elseif ($code['versionCompare'][$codeKey] === 1) {
+                            $consoleTablePrepare['versionCompare'] = '<fg=red;bg=black>Higher</>';
+                        }
+
+                        $consoleTablePrepare['note'] = $code['note'][$codeKey] ?? '';
+
+                        $consoleTable[] = $consoleTablePrepare;
+                    } else {
+                        $consoleTable[] = [
+                            $code['discover'],
+                            $codeKey,
+                            '',
+                            '<fg=red;bg=black>No Data</>',
+                            '',
+                        ];
                     }
-
-                    $consoleTablePrepare['note'] = $code['note'][$codeKey] ?? '';
-
-                    d($consoleTablePrepare);
-
-                    $consoleTable[] = $consoleTablePrepare;
                 }
             } else {
                 $consoleTable[] = [
                     $code['discover'],
                     '',
                     '',
-                    '<fg=red;bg=black>No Data</>',
+                    '<fg=white;bg=black>No Information</>',
                     '',
                 ];
             }

@@ -25,6 +25,7 @@ class CodeVersionScan
             if ($docComment) {
                 $codeInfo = [
                     'discover' => $discover,
+                    'versionDoc' => false,
                     'version' => [],
                     'note' => [],
                 ];
@@ -39,6 +40,14 @@ class CodeVersionScan
                         $codeInfo['version'][$match[2]] = trim($match[3]);
                         $codeInfo['versionCompare'][$match[2]] = version_compare($codeInfo['version'][$match[2]],
                             $versions[$match[2]] ?? '1.0.0');
+                        $codeInfo['versionDoc'] = true;
+                    }
+                }
+
+                foreach (array_keys($versions) as $version) {
+                    if (! isset($codeInfo['version'][$version])) {
+                        $codeInfo['version'][$version] = null;
+                        $this->codeInfoCollection[$discover] = $codeInfo;
                     }
                 }
 
