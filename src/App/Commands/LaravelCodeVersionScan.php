@@ -25,7 +25,6 @@ class LaravelCodeVersionScan extends Commands
     /**
      * Execute the console command.
      *
-     * @return int
      *
      * @throws \ReflectionException
      */
