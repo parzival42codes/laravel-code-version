@@ -17,6 +17,7 @@ class CodeVersionScan
     {
         $discoverClass = Discover::in($path)->classes()->extending(Controller::class)->get();
 
+        /** @var string $discover */
         foreach ($discoverClass as $discover) {
             $reflectionClass = new ReflectionClass($discover);
 

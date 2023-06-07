@@ -41,8 +41,6 @@ class LaravelCodeVersionScan extends Commands
         $consoleTable = [];
         $codeData = new CodeVersionScan($versions, $path);
         foreach ($codeData->getArray() as $code) {
-            d($code);
-
             if ($code['versionDoc']) {
                 foreach ($code['version'] as $codeKey => $codeVersion) {
                     if ($codeVersion) {
