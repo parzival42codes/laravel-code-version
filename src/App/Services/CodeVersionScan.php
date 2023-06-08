@@ -4,6 +4,7 @@ namespace parzival42codes\LaravelCodeVersion\App\Services;
 
 use App\Http\Controllers\Controller;
 use ReflectionClass;
+use ReflectionException;
 use Spatie\StructureDiscoverer\Discover;
 
 class CodeVersionScan
@@ -11,12 +12,13 @@ class CodeVersionScan
     private array $codeInfoCollection = [];
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct(array $versions, string $path)
     {
         $discoverClass = Discover::in($path)->classes()->extending(Controller::class)->get();
 
+        /** @var string $discover */
         foreach ($discoverClass as $discover) {
             $reflectionClass = new ReflectionClass($discover);
 
