@@ -5,6 +5,7 @@ namespace parzival42codes\LaravelCodeVersion\App\Commands;
 use App\Console\Commands;
 use Illuminate\Console\View\Components\Info;
 use parzival42codes\LaravelCodeVersion\App\Services\CodeVersionScan;
+use ReflectionException;
 
 class LaravelCodeVersionScan extends Commands
 {
@@ -25,9 +26,8 @@ class LaravelCodeVersionScan extends Commands
     /**
      * Execute the console command.
      *
-     * @return int
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function handle(): int
     {
@@ -36,7 +36,7 @@ class LaravelCodeVersionScan extends Commands
         $versions = config('code-version.versions_required');
         $path = config('code-version.scan_path');
 
-        $this->write(Info::class, 'Can for main versions '.var_export($versions, true).' in: '.$path);
+        $this->write(Info::class, 'Can for main versions ' . var_export($versions, true) . ' in: ' . $path);
 
         $consoleTable = [];
         $codeData = new CodeVersionScan($versions, $path);
