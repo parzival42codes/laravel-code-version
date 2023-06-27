@@ -33,7 +33,9 @@ class LaravelCodeVersionScan extends Commands
     {
         // php artisan vendor:publish --tag=code-version-config
 
+        /** @var array $versions */
         $versions = config('code-version.versions_required');
+        /** @var string $path */
         $path = config('code-version.scan_path');
 
         $this->write(Info::class, 'Can for main versions ' . var_export($versions, true) . ' in: ' . $path);
