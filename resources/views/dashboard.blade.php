@@ -62,7 +62,7 @@
                         <td>{{ $code['discover'] }}</td>
                         <td>{{ $codeKey }}</td>
                         <td>&nbsp;</td>
-                        <td>No Data</td>
+                        <td class="versionCompare"><span style="color:white;">No Data</span></td>
                         <td>&nbsp;</td>
                     </tr>
 
@@ -76,7 +76,7 @@
                 <td>{{ $code['discover'] }}</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
-                <td><span style="color:black;">No Data</span></td>
+                <td class="versionCompare"><span style="color:white;">Class has no Data</span></td>
                 <td>&nbsp;</td>
             </tr>
 
