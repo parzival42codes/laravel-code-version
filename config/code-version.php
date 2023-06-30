@@ -5,11 +5,14 @@ return [
     /*
      * Main Version
      */
-    'version' => '1.0.1',
+    'versions_required' => [
+        'php' => '1.0.0',
+        'blade' => '1.0.1',
+    ],
 
     /*
      * Path to scan
      */
-    'path' => app_path(),
+    'scan_path' => app_path(),
 
 ];
