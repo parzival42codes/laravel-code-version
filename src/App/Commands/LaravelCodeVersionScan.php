@@ -35,13 +35,17 @@ class LaravelCodeVersionScan extends Commands
 
         /** @var array $versions */
         $versions = config('code-version.versions_required');
-        /** @var string $path */
+        /** @var array $path */
         $path = config('code-version.scan_path');
+        /** @var array $class */
+        $class = config('code-version.scan_class');
 
-        $this->write(Info::class, 'Can for main versions ' . var_export($versions, true) . ' in: ' . $path);
+        $this->write(Info::class,
+            'Can for main versions ' . var_export($versions, true) . ' wit Classes: ' . var_export($class,
+                true) . ' in: ' . var_export($path, true));
 
         $consoleTable = [];
-        $codeData = new CodeVersionScan($versions, $path);
+        $codeData = new CodeVersionScan($versions, $class, $path);
         foreach ($codeData->getArray() as $code) {
             if ($code['versionDoc']) {
                 foreach ($code['version'] as $codeKey => $codeVersion) {

@@ -1,5 +1,7 @@
 <?php
 
+use Okipa\LaravelTable\Abstracts\AbstractTableConfiguration;
+
 return [
 
     /*
@@ -13,6 +15,16 @@ return [
     /*
      * Path to scan
      */
-    'scan_path' => app_path(),
+    'scan_path' => [
+        app_path(),
+        './packages',
+    ],
+    /*
+     * Path to scan
+     */
+    'scan_class' => [
+        Controller::class,
+        AbstractTableConfiguration::class,
+    ],
 
 ];
