@@ -14,7 +14,7 @@ class LaravelCodeVersionServiceProvider extends PackageServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        $package->name(self::PACKAGE_NAME)->hasCommand(LaravelCodeVersionScan::class)->hasConfigFile();
+        $package->name(self::PACKAGE_NAME)->hasCommand(LaravelCodeVersionScan::class)->hasConfigFile()->hasRoute('route')->hasViews();
     }
 
     public function registeringPackage(): void
