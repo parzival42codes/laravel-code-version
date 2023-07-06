@@ -1,27 +1,8 @@
-<style>
-    table {
-        border: 1px black solid;
-    }
+@include('code-version::header')
 
-    table td {
-        border: 1px black dashed;
-        padding: 5px;
-    }
+<div id="tableContainer">
 
-    table td.versionCompare {
-        background: black;
-    }
-
-    tr:nth-child(even) {
-        background: #CCC
-    }
-
-    tr:nth-child(odd) {
-        background: #FFF
-    }
-</style>
-
-<table style="width: 100%;">
+<table>
 
     <tr>
         <th>Class</th>
@@ -84,3 +65,7 @@
     @endforeach
 
 </table>
+
+</div>
+
+@include('code-version::footer')
